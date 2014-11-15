@@ -21,7 +21,7 @@ states = (
 tokens = (
     # Common tokens
     'KEYWORD',
-    'NOTAM', 'OPERATION_TYPE',
+    'NOTAM', 'OPERATION',
     'DATETIME', 'WORD',
     # Qualifier tokens
     'QUALIFIER',
@@ -67,7 +67,7 @@ def t_KEYWORD(t):
     return t
 
 
-def t_OPERATION_TYPE(t):
+def t_OPERATION(t):
     r'NOTAM[NRC]'
     types = {
         'N': 'NEW',
@@ -88,15 +88,15 @@ t_ignore = ' \t\n'
 
 # Qualifier rules (Q)
 
-t_qualifiers_QUALIFIER = r'[A-Z0-9]+'
 t_qualifiers_KEYWORD = t_KEYWORD
+t_qualifiers_QUALIFIER = r'[A-Z0-9]+'
 t_qualifiers_ignore = t_ignore + '/'
 
 
 # Location rules (A)
 
-t_location_LOCATION = r'[A-Z]+'
 t_location_KEYWORD = t_KEYWORD
+t_location_LOCATION = r'[A-Z]+'
 t_location_ignore = t_ignore
 
 
@@ -125,8 +125,8 @@ def t_validity_MONTHDAY(t):
 
 # Description rules (E)
 
-t_description_WORD = '[^ \n]+'
 t_description_KEYWORD = t_KEYWORD
+t_description_WORD = '[^ \n]+'
 t_description_ignore = t_ignore
 
 
@@ -138,8 +138,9 @@ t_limits_ignore = t_ignore
 
 # Attribute rules
 
-t_attributes_ignore = t_ignore
+t_attributes_KEYWORD = t_KEYWORD
 t_attributes_WORD = '[^ \n]+'
+t_attributes_ignore = t_ignore
 
 
 def t_attributes_DATETIME(t):
