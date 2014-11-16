@@ -27,14 +27,28 @@ def p_notam(p):
 
 
 def p_intro(p):
-    """intro : NOTAM OPERATION
-             | NOTAM OPERATION NOTAM"""
+    """intro : notam_id OPERATION
+             | notam_id OPERATION notam_id"""
     if len(p) == 3:
-        p[0] = ast.Intro(id=p[1], operation=p[2], target=None)
+        target = None
     elif len(p) == 4:
-        p[0] = ast.Intro(id=p[1], operation=p[2], target=p[3])
+        target = p[3]
     else:
         SyntaxError('Invalid number of symbols')
+    p[0] = ast.Intro(id=p[1], operation=p[2], target=target)
+
+
+def p_notam_id(p):
+    """notam_id : NOTAM"""
+    parts = p[1].split('/')
+    series = parts[0][0]
+    number = int(parts[0][1:5])
+    _year = int(parts[1])
+    if _year >= 70:
+        year = _year + 1900
+    else:
+        year = _year + 2000
+    p[0] = ast.NotamID(series, number, year, raw=p[1])
 
 
 def p_attributes(p):
