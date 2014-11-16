@@ -63,7 +63,13 @@ def p_attribute(p):
                  | KEYWORD DATETIME
                  | KEYWORD schedule
                  | KEYWORD description"""
-    p[0] = ast.Attribute(type=p[1], body=p[2])
+    if p[1].endswith(')'):
+        attr_type = p[1][0]
+    elif p[1].endswith(':'):
+        attr_type = p[1][:-1]
+    else:
+        raise SyntaxError('Invalid keyword: %s' % p[1])
+    p[0] = ast.Attribute(type=attr_type, body=p[2])
 
 
 def p_qualifiers(p):
