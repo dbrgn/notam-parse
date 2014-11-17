@@ -74,8 +74,25 @@ def p_attribute(p):
 
 def p_qualifiers(p):
     """qualifiers : QUALIFIER
-                  | QUALIFIER qualifiers"""
-    _one_or_many(p)
+                  | COORDINATES
+                  | QUALIFIER qualifiers
+                  | COORDINATES qualifiers"""
+    token = p.slice[1]
+    qualifier_type = token.type
+    if qualifier_type == 'QUALIFIER':
+        first_symbol = p[1]
+    elif qualifier_type == 'COORDINATES':
+        first_symbol = p[1]
+        # TODO parse coordinates
+    else:
+        raise SyntaxError('Invalid qualifier type: %s' % qualifier_type)
+
+    if len(p) == 2:
+        p[0] = [first_symbol]
+    elif len(p) == 3:
+        p[0] = [first_symbol] + p[2]
+    else:
+        SyntaxError('Invalid number of symbols')
 
 
 def p_schedule(p):

@@ -24,7 +24,7 @@ tokens = (
     'NOTAM', 'OPERATION',
     'DATETIME', 'WORD',
     # Qualifier tokens
-    'QUALIFIER',
+    'QUALIFIER', 'COORDINATES',
     # Location tokens
     'LOCATION',
     # Validity tokens
@@ -90,6 +90,7 @@ t_ignore = ' \t\n'
 
 t_qualifiers_KEYWORD = t_KEYWORD
 t_qualifiers_QUALIFIER = r'[A-Z0-9]+'
+t_qualifiers_COORDINATES = r'[0-9]{,5}[NS][0-9]{,5}[EW][0-9]{,3}'
 t_qualifiers_ignore = t_ignore + '/'
 
 
